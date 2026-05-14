@@ -1,1 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramu Boutique - Level 11 Stable</title>
 
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0a0a0a;
+  color:white;
+}
+
+/* HEADER */
+header{
+  display:flex;
+  justify-content:space-between;
+  padding:15px;
+  background:black;
+}
+
+.logo{
+  color:gold;
+  font-size:22px;
+  font-weight:bold;
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:60px 20px;
+  background:linear-gradient(to right,#000,#222);
+}
+
+.hero h1{color:gold;}
+
+.btn{
+  background:gold;
+  color:black;
+  padding:10px 15px;
+  margin:5px;
+  display:inline-block;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+/* PRODUCTS */
+.products{
+  padding:20px;
+  text-align:center;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:15px;
+}
+
+.card{
+  background:#151515;
+  border:1px solid gold;
+  padding:15px;
+  border-radius:10px;
+}
+
+button{
+  padding:8px;
+  margin:3px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.add{background:gold;}
+.minus{background:#ffcc00;}
+.remove{background:red;color:white;}
+
+/* CART (ALWAYS VISIBLE) */
+.cart{
+  background:#111;
+  margin:20px;
+  padding:15px;
+  border-radius:10px;
+}
+
+.cart li{
+  margin:10px 0;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:20px;
+  background:black;
+  color:gold;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:80px;
+  left:50%;
+  transform:translateX(-50%);
+  background:gold;
+  color:black;
+  padding:10px;
+  border-radius:8px;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">RAMU BOUTIQUE</div>
+</header>
+
+<section class="hero">
+<h1>Luxury Fashion Store</h1>
+
+<a class="btn" href="#products">Shop</a>
+
+<a class="btn"
+href="https://wa.me/2207597080?text=Hello%20I%20want%20to%20order"
+target="_blank">
+WhatsApp
+</a>
+
+<a class="btn"
+href="mailto:bachjawo11@gmail.com?subject=Order%20Ramu%20Boutique">
+Email
+</a>
+</section>
+
+<section class="products" id="products">
+
+<div class="grid">
+
+<div class="card">
+
+  <img src="Dress.jpg" alt="Elegant Dress">
+
+  <h3>Elegant Dress</h3>
+
+  <p>$80</p>
+
+  <button onclick="add('Elegant Dress', 80)">+</button>
+
+  <button onclick="minus('Elegant Dress')">-</button>
+
+  <button onclick="removeItem('Elegant Dress')">
+    Remove
+  </button>
+
+</div>
+
+<div class="card">
+
+<img src="Luxury shoes.jpg" alt="Luxury Shoes">  
+  
+<h3>Luxury Shoes</h3>
+<p>$65</p>
+<button class="add" onclick="add('Luxury Shoes',65)">+</button>
+<button class="minus" onclick="minus('Luxury Shoes')">−</button>
+<button class="remove" onclick="removeItem('Luxury Shoes')">Remove</button>
+</div>
+
+<div class="card">
+  
+  <img src="perfume.jpg" alt="perfume">
+  
+<h3>Perfume</h3>
+<p>$40</p>
+<button class="add" onclick="add('Perfume',40)">+</button>
+<button class="minus" onclick="minus('Perfume')">−</button>
+<button class="remove" onclick="removeItem('Perfume')">Remove</button>
+</div>
+
+<div class="card">
+
+  <img src="necklace.jpg" alt="Classic Necklace">
+
+  <h3>Classic Necklace</h3>
+
+  <p>$80</p>
+
+  <button onclick="add('Classic Necklace', 80)">+</button>
+
+  <button onclick="minus('Classic Necklace')">-</button>
+
+  <button onclick="removeItem('Classic Necklace')">
+    Remove
+  </button>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- CART -->
+<div class="cart">
+<h2>Your Cart</h2>
+<ul id="list"></ul>
+<h3>Total: $<span id="total">0</span></h3>
+
+<button onclick="checkout()">Checkout WhatsApp</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+let cart = [];
+
+function toast(msg){
+  let t=document.getElementById("toast");
+  t.innerText=msg;
+  t.style.display="block";
+  setTimeout(()=>t.style.display="none",1500);
+}
+
+function add(name,price){
+  let item = cart.find(i=>i.name===name);
+
+  if(item) item.qty++;
+  else cart.push({name,price,qty:1});
+
+  toast("Added " + name);
+  render();
+}
+
+function minus(name){
+  let item = cart.find(i=>i.name===name);
+  if(!item) return;
+
+  item.qty--;
+
+  if(item.qty<=0){
+    cart = cart.filter(i=>i.name!==name);
+  }
+
+  render();
+}
+
+function removeItem(name){
+  cart = cart.filter(i=>i.name!==name);
+  render();
+}
+
+function render(){
+
+  let list=document.getElementById("list");
+  list.innerHTML="";
+
+  let total=0;
+
+  cart.forEach(i=>{
+    total += i.price * i.qty;
+
+    let li=document.createElement("li");
+    li.innerHTML = `
+      ${i.name} x${i.qty} = $${i.price*i.qty}
+    `;
+    list.appendChild(li);
+  });
+
+  document.getElementById("total").innerText=total;
+
+}
+
+function checkout(){
+
+  let msg = `🛍 Ramu Boutique Order
+
+- Elegant Dress x1 = $50
+- Luxury Shoes x1 = $65
+- Perfume x1 = $40
+- clasic necklace x1 = $80
+
+TOTAL: $155`;
+
+  let total = 0;
+
+  msg = "🛍 Ramu Boutique Order\n\n";
+
+  cart.forEach(i => {
+
+    let itemTotal = i.price * i.qty;
+
+    total += itemTotal;
+
+    msg += `• ${i.name} x${i.qty} = $${itemTotal}\n`;
+
+  });
+
+  msg += `\nTOTAL: $${total}`;
+
+  let url =
+  "https://wa.me/2207597080?text=" + encodeURIComponent(msg);
+
+  window.open(url, "_blank");
+}
+
+render();
+
+</script>
+
+</body>
+  </html>
