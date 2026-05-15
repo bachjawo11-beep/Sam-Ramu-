@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramu Boutique - Level 11 Stable</title>
+<title>Ramu Boutique - Level 14</title>
 
 <style>
 body{
@@ -19,6 +19,9 @@ header{
   justify-content:space-between;
   padding:15px;
   background:black;
+  position:sticky;
+  top:0;
+  z-index:1000;
 }
 
 .logo{
@@ -30,7 +33,7 @@ header{
 /* HERO */
 .hero{
   text-align:center;
-  padding:60px 20px;
+  padding:50px 20px;
   background:linear-gradient(to right,#000,#222);
 }
 
@@ -47,15 +50,24 @@ header{
   font-weight:bold;
 }
 
+/* SEARCH */
+.search-box{
+  margin-top:15px;
+  padding:10px;
+  width:80%;
+  max-width:400px;
+  border-radius:8px;
+  border:none;
+}
+
 /* PRODUCTS */
 .products{
   padding:20px;
-  text-align:center;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:15px;
 }
 
@@ -63,6 +75,18 @@ header{
   background:#151515;
   border:1px solid gold;
   padding:15px;
+  border-radius:10px;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:scale(1.03);
+}
+
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
   border-radius:10px;
 }
 
@@ -78,25 +102,59 @@ button{
 .add{background:gold;}
 .minus{background:#ffcc00;}
 .remove{background:red;color:white;}
+.wish{background:#333;color:white;}
 
-/* CART (ALWAYS VISIBLE) */
-.cart{
-  background:#111;
-  margin:20px;
+/* FLOATING CART BUTTON */
+.cart-btn{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:gold;
+  color:black;
   padding:15px;
-  border-radius:10px;
+  border-radius:50px;
+  font-weight:bold;
+  cursor:pointer;
+  z-index:2000;
+}
+
+/* SIDE CART */
+.cart{
+  position:fixed;
+  right:-400px;
+  top:0;
+  width:320px;
+  height:100%;
+  background:#111;
+  padding:15px;
+  transition:0.4s;
+  overflow-y:auto;
+  border-left:2px solid gold;
+  z-index:3000;
+}
+
+.cart.open{
+  right:0;
+}
+
+.cart h2{
+  color:gold;
 }
 
 .cart li{
   margin:10px 0;
 }
 
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:20px;
-  background:black;
-  color:gold;
+/* OVERLAY */
+.overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  z-index:2500;
 }
 
 /* TOAST */
@@ -111,6 +169,13 @@ footer{
   border-radius:8px;
   display:none;
 }
+
+/* MOBILE */
+@media(max-width:600px){
+  .cart{
+    width:100%;
+  }
+}
 </style>
 </head>
 
@@ -124,114 +189,119 @@ footer{
 <h1>Luxury Fashion Store</h1>
 
 <a class="btn" href="#products">Shop</a>
+<a class="btn" href="https://wa.me/2207597080">WhatsApp</a>
+<a class="btn" href="mailto:bachjawo11@gmail.com">Email</a>
 
-<a class="btn"
-href="https://wa.me/2207597080?text=Hello%20I%20want%20to%20order"
-target="_blank">
-WhatsApp
-</a>
+<br>
 
-<a class="btn"
-href="mailto:bachjawo11@gmail.com?subject=Order%20Ramu%20Boutique">
-Email
-</a>
+<input class="search-box" id="search" placeholder="Search products..." onkeyup="filterProducts()">
 </section>
 
 <section class="products" id="products">
-
 <div class="grid">
 
+<!-- DRESS -->
 <div class="card">
-
-  <img src="Dress.jpg" alt="Elegant Dress">
-
-  <h3>Elegant Dress</h3>
-
-  <p>$50</p>
-
-  <button onclick="add('Elegant Dress', 50)">+</button>
-
-  <button onclick="minus('Elegant Dress')">-</button>
-
-  <button onclick="removeItem('Elegant Dress')">
-    Remove
-  </button>
-
+<img src="dress.jpg">
+<h3>Elegant Dress</h3>
+<p>$50</p>
+<button class="add" onclick="add('Elegant Dress',50)">+</button>
+<button class="minus" onclick="minus('Elegant Dress')">−</button>
+<button class="remove" onclick="removeItem('Elegant Dress')">Remove</button>
+<button class="wish" onclick="wishlist('Elegant Dress')">❤️</button>
 </div>
 
+<!-- SHOES -->
 <div class="card">
-
-<img src="Luxury shoes.jpg" alt="Luxury Shoes">  
-  
+<img src="luxury-shoes.jpg">
 <h3>Luxury Shoes</h3>
 <p>$65</p>
 <button class="add" onclick="add('Luxury Shoes',65)">+</button>
 <button class="minus" onclick="minus('Luxury Shoes')">−</button>
 <button class="remove" onclick="removeItem('Luxury Shoes')">Remove</button>
+<button class="wish" onclick="wishlist('Luxury Shoes')">❤️</button>
 </div>
 
+<!-- PERFUME -->
 <div class="card">
-  
-  <img src="perfume.jpg" alt="perfume">
-  
+<img src="perfume.jpg">
 <h3>Perfume</h3>
 <p>$40</p>
 <button class="add" onclick="add('Perfume',40)">+</button>
 <button class="minus" onclick="minus('Perfume')">−</button>
 <button class="remove" onclick="removeItem('Perfume')">Remove</button>
+<button class="wish" onclick="wishlist('Perfume')">❤️</button>
 </div>
 
+<!-- GOLD RING -->
 <div class="card">
-
-  <img src="necklace.jpg" alt="Classic Necklace">
-
-  <h3>Classic Necklace</h3>
-
-  <p>$80</p>
-
-  <button onclick="add('Classic Necklace', 80)">+</button>
-
-  <button onclick="minus('Classic Necklace')">-</button>
-
-  <button onclick="removeItem('Classic Necklace')">
-    Remove
-  </button>
-
+<img src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?w=500">
+<h3>Gold Ring</h3>
+<p>$1000</p>
+<button class="add" onclick="add('Gold Ring',1000)">+</button>
+<button class="minus" onclick="minus('Gold Ring')">−</button>
+<button class="remove" onclick="removeItem('Gold Ring')">Remove</button>
+<button class="wish" onclick="wishlist('Gold Ring')">❤️</button>
 </div>
 
+<!-- SILVER WATCH (RESTORED) -->
+<div class="card">
+<img src="silver-watch.jpg">
+<h3>Silver Watch</h3>
+<p>$250</p>
+<button class="add" onclick="add('Silver Watch',250)">+</button>
+<button class="minus" onclick="minus('Silver Watch')">−</button>
+<button class="remove" onclick="removeItem('Silver Watch')">Remove</button>
+<button class="wish" onclick="wishlist('Silver Watch')">❤️</button>
 </div>
 
 </div>
 </section>
 
-<!-- CART -->
-<div class="cart">
+<!-- FLOATING CART BUTTON -->
+<div class="cart-btn" onclick="toggleCart()">
+🛒 Cart (<span id="cartCount">0</span>)
+</div>
+
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+<!-- SIDE CART -->
+<div class="cart" id="cart">
 <h2>Your Cart</h2>
+
 <ul id="list"></ul>
+
 <h3>Total: $<span id="total">0</span></h3>
 
 <button onclick="checkout()">Checkout WhatsApp</button>
+<button onclick="clearCart()" style="background:red;color:white;">Clear</button>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let wishes = JSON.parse(localStorage.getItem("wish")) || [];
+
+function save(){
+  localStorage.setItem("cart", JSON.stringify(cart));
+  localStorage.setItem("wish", JSON.stringify(wishes));
+}
 
 function toast(msg){
   let t=document.getElementById("toast");
   t.innerText=msg;
   t.style.display="block";
-  setTimeout(()=>t.style.display="none",1500);
+  setTimeout(()=>t.style.display="none",1200);
 }
 
 function add(name,price){
   let item = cart.find(i=>i.name===name);
-
   if(item) item.qty++;
   else cart.push({name,price,qty:1});
 
+  save();
   toast("Added " + name);
   render();
 }
@@ -241,71 +311,87 @@ function minus(name){
   if(!item) return;
 
   item.qty--;
-
   if(item.qty<=0){
     cart = cart.filter(i=>i.name!==name);
   }
 
+  save();
   render();
 }
 
 function removeItem(name){
   cart = cart.filter(i=>i.name!==name);
+  save();
   render();
+}
+
+function wishlist(name){
+  if(!wishes.includes(name)){
+    wishes.push(name);
+  } else {
+    wishes = wishes.filter(i=>i!==name);
+  }
+  save();
+  render();
+}
+
+/* CART DRAWER */
+function toggleCart(){
+  document.getElementById("cart").classList.toggle("open");
+  document.getElementById("overlay").style.display =
+    document.getElementById("cart").classList.contains("open") ? "block" : "none";
 }
 
 function render(){
 
   let list=document.getElementById("list");
   list.innerHTML="";
-
   let total=0;
 
   cart.forEach(i=>{
-    total += i.price * i.qty;
-
+    total+=i.price*i.qty;
     let li=document.createElement("li");
-    li.innerHTML = `
-      ${i.name} x${i.qty} = $${i.price*i.qty}
-    `;
+    li.innerHTML=`${i.name} x${i.qty} = $${i.price*i.qty}`;
     list.appendChild(li);
   });
 
   document.getElementById("total").innerText=total;
-
+  document.getElementById("cartCount").innerText=cart.length;
 }
 
 function checkout(){
 
-  let msg = `🛍 Ramu Boutique Order
+  if(cart.length===0){
+    alert("Cart empty!");
+    return;
+  }
 
-- Elegant Dress x1 = $50
-- Luxury Shoes x1 = $65
-- Perfume x1 = $40
-- clasic necklace x1 = $80
+  let msg="🛍 Ramu Boutique Order\n\n";
+  let total=0;
 
-TOTAL: $155`;
-
-  let total = 0;
-
-  msg = "🛍 Ramu Boutique Order\n\n";
-
-  cart.forEach(i => {
-
-    let itemTotal = i.price * i.qty;
-
-    total += itemTotal;
-
-    msg += `• ${i.name} x${i.qty} = $${itemTotal}\n`;
-
+  cart.forEach(i=>{
+    let t=i.price*i.qty;
+    total+=t;
+    msg+=`• ${i.name} x${i.qty} = $${t}\n`;
   });
 
-  msg += `\nTOTAL: $${total}`;
+  msg+=`\nTOTAL: $${total}`;
 
-  let url =
-  "https://wa.me/2207597080?text=" + encodeURIComponent(msg);
+  window.open("https://wa.me/2207597080?text="+encodeURIComponent(msg), "_blank");
+}
 
-  window.open(url, "_blank");
+function clearCart(){
+  cart=[];
+  save();
+  render();
+}
+
+function filterProducts(){
+  let input=document.getElementById("search").value.toLowerCase();
+  document.querySelectorAll(".card").forEach(card=>{
+    let name=card.querySelector("h3").innerText.toLowerCase();
+    card.style.display=name.includes(input)?"block":"none";
+  });
 }
 
 render();
