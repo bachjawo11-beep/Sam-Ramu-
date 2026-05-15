@@ -865,22 +865,89 @@ function filterProducts(){
 
 }
 
-/* CART */
+/* CART SYSTEM */
+
+let cartOpened = false;
+
+function openCart(){
+
+  let cart =
+  document.getElementById("cart");
+
+  let overlay =
+  document.getElementById("overlay");
+
+  cart.classList.add("open");
+
+  overlay.style.display = "block";
+
+  document.body.style.overflow = "hidden";
+
+  cartOpened = true;
+
+  history.pushState(
+    {cart:true},
+    ""
+  );
+
+}
+
+function closeCart(){
+
+  let cart =
+  document.getElementById("cart");
+
+  let overlay =
+  document.getElementById("overlay");
+
+  cart.classList.remove("open");
+
+  overlay.style.display = "none";
+
+  document.body.style.overflow = "auto";
+
+  cartOpened = false;
+
+}
+
+/* TOGGLE */
 
 function toggleCart(){
 
-  let cartEl =
-  document.getElementById("cart");
+  if(cartOpened){
 
-  cartEl.classList.toggle("open");
+    closeCart();
 
-  document.getElementById("overlay")
-  .style.display =
-  cartEl.classList.contains("open")
-  ? "block"
-  : "none";
+  } else {
+
+    openCart();
+
+  }
 
 }
+
+/* OVERLAY CLICK */
+
+document.getElementById("overlay")
+.addEventListener("click", closeCart);
+
+/* MOBILE BACK BUTTON */
+
+window.addEventListener("popstate", function(event){
+
+  if(cartOpened){
+
+    closeCart();
+
+    history.pushState(
+      null,
+      "",
+      location.href
+    );
+
+  }
+
+});
 
 /* STORE SWITCH */
 
