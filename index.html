@@ -3,20 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramu Boutique - Level 14</title>
+<title>Ramu Boutique - Level 16 Ultimate</title>
 
 <style>
+
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
-  font-family:Arial;
+  font-family:Arial, sans-serif;
   background:#0a0a0a;
   color:white;
+  transition:0.3s;
+}
+
+/* LIGHT MODE */
+body.light{
+  background:#f5f5f5;
+  color:#111;
+}
+
+body.light .card,
+body.light .cart{
+  background:white;
+  color:black;
+}
+
+body.light header{
+  background:white;
+}
+
+body.light .logo{
+  color:#c79b00;
 }
 
 /* HEADER */
 header{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   padding:15px;
   background:black;
   position:sticky;
@@ -26,7 +53,21 @@ header{
 
 .logo{
   color:gold;
-  font-size:22px;
+  font-size:24px;
+  font-weight:bold;
+}
+
+.header-buttons{
+  display:flex;
+  gap:10px;
+}
+
+.mode-btn{
+  background:gold;
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
   font-weight:bold;
 }
 
@@ -37,7 +78,10 @@ header{
   background:linear-gradient(to right,#000,#222);
 }
 
-.hero h1{color:gold;}
+.hero h1{
+  color:gold;
+  margin-bottom:10px;
+}
 
 .btn{
   background:gold;
@@ -52,12 +96,19 @@ header{
 
 /* SEARCH */
 .search-box{
-  margin-top:15px;
-  padding:10px;
-  width:80%;
+  margin-top:20px;
+  padding:12px;
+  width:90%;
   max-width:400px;
-  border-radius:8px;
   border:none;
+  border-radius:8px;
+  outline:none;
+}
+
+/* STORE BUTTONS */
+.store-buttons{
+  text-align:center;
+  padding:20px;
 }
 
 /* PRODUCTS */
@@ -67,31 +118,41 @@ header{
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:15px;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px;
 }
 
 .card{
   background:#151515;
   border:1px solid gold;
   padding:15px;
-  border-radius:10px;
+  border-radius:12px;
   transition:0.3s;
 }
 
 .card:hover{
-  transform:scale(1.03);
+  transform:translateY(-5px);
 }
 
 .card img{
   width:100%;
-  height:200px;
+  height:220px;
   object-fit:cover;
   border-radius:10px;
 }
 
+.card h3{
+  margin-top:10px;
+}
+
+.card p{
+  color:gold;
+  font-weight:bold;
+}
+
+/* BUTTONS */
 button{
-  padding:8px;
+  padding:8px 12px;
   margin:3px;
   border:none;
   border-radius:6px;
@@ -99,12 +160,26 @@ button{
   font-weight:bold;
 }
 
-.add{background:gold;}
-.minus{background:#ffcc00;}
-.remove{background:red;color:white;}
-.wish{background:#333;color:white;}
+.add{
+  background:gold;
+  color:black;
+}
 
-/* FLOATING CART BUTTON */
+.minus{
+  background:#ffcc00;
+}
+
+.remove{
+  background:red;
+  color:white;
+}
+
+.wish{
+  background:#333;
+  color:white;
+}
+
+/* FLOATING CART */
 .cart-btn{
   position:fixed;
   right:20px;
@@ -116,21 +191,22 @@ button{
   font-weight:bold;
   cursor:pointer;
   z-index:2000;
+  box-shadow:0 0 15px rgba(255,215,0,0.5);
 }
 
 /* SIDE CART */
 .cart{
   position:fixed;
-  right:-400px;
   top:0;
-  width:320px;
+  right:-400px;
+  width:340px;
   height:100%;
   background:#111;
-  padding:15px;
+  padding:20px;
   transition:0.4s;
   overflow-y:auto;
-  border-left:2px solid gold;
   z-index:3000;
+  border-left:2px solid gold;
 }
 
 .cart.open{
@@ -142,7 +218,7 @@ button{
 }
 
 .cart li{
-  margin:10px 0;
+  margin:12px 0;
 }
 
 /* OVERLAY */
@@ -160,331 +236,681 @@ button{
 /* TOAST */
 .toast{
   position:fixed;
-  bottom:80px;
+  bottom:90px;
   left:50%;
   transform:translateX(-50%);
   background:gold;
   color:black;
-  padding:10px;
+  padding:12px;
   border-radius:8px;
   display:none;
+  z-index:5000;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:20px;
+  background:black;
+  color:gold;
+  margin-top:40px;
 }
 
 /* MOBILE */
 @media(max-width:600px){
+
   .cart{
     width:100%;
   }
+
+  .header-buttons{
+    flex-direction:column;
+  }
+
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="logo">RAMU BOUTIQUE</div>
+
+<div class="logo">
+RAMU BOUTIQUE
+</div>
+
+<div class="header-buttons">
+
+<button class="mode-btn" onclick="toggleMode()">
+🌙 Mode
+</button>
+
+</div>
+
 </header>
 
+<!-- HERO -->
+
 <section class="hero">
+
 <h1>Luxury Fashion Store</h1>
 
-<a class="btn" href="#products">Shop</a>
-<a class="btn" href="https://wa.me/2207597080">WhatsApp</a>
-<a class="btn" href="mailto:bachjawo11@gmail.com">Email</a>
+<p>Premium Boutique Experience</p>
+
+<a class="btn" href="#products">
+Shop
+</a>
+
+<a class="btn"
+href="https://wa.me/2207597080"
+target="_blank">
+WhatsApp
+</a>
+
+<a class="btn"
+href="mailto:bachjawo11@gmail.com">
+Email
+</a>
 
 <br>
 
-<input class="search-box" id="search" placeholder="Search products..." onkeyup="filterProducts()">
+<input
+class="search-box"
+id="search"
+placeholder="Search products..."
+onkeyup="filterProducts()">
+
 </section>
+
+<!-- STORE BUTTONS -->
+
+<div class="store-buttons">
+
+<button class="btn"
+onclick="showStore('fashion')">
+Fashion Store
+</button>
+
+<button class="btn"
+onclick="showStore('jewelry')">
+Jewelry Store
+</button>
+
+<button class="btn"
+onclick="showStore('perfume-store')">
+Perfume Store
+</button>
+
+</div>
+
+<!-- PRODUCTS -->
 
 <section class="products" id="products">
 
 <!-- FASHION -->
+
 <div class="grid store" id="fashion">
 
 <div class="card">
-<img src="dress.jpg">
+
+<img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=500" alt="Elegant Dress">
+
 <h3>Elegant Dress</h3>
+
 <p>$50</p>
 
-<button class="add" onclick="add('Elegant Dress',50)">+</button>
-<button class="minus" onclick="minus('Elegant Dress')">−</button>
-<button class="remove" onclick="removeItem('Elegant Dress')">Remove</button>
-<button class="wish" onclick="wishlist('Elegant Dress')">❤️</button>
+<button class="add"
+onclick="add('Elegant Dress',50)">
++
+</button>
+
+<button class="minus"
+onclick="minus('Elegant Dress')">
+−
+</button>
+
+<button class="remove"
+onclick="removeItem('Elegant Dress')">
+Remove
+</button>
+
+<button class="wish"
+onclick="wishlist('Elegant Dress')">
+❤️
+</button>
+
 </div>
 
 <div class="card">
-<img src="luxury-shoes.jpg">
+
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" alt="Luxury Shoes">
+
 <h3>Luxury Shoes</h3>
+
 <p>$65</p>
 
-<button class="add" onclick="add('Luxury Shoes',65)">+</button>
-<button class="minus" onclick="minus('Luxury Shoes')">−</button>
-<button class="remove" onclick="removeItem('Luxury Shoes')">Remove</button>
-<button class="wish" onclick="wishlist('Luxury Shoes')">❤️</button>
+<button class="add"
+onclick="add('Luxury Shoes',65)">
++
+</button>
+
+<button class="minus"
+onclick="minus('Luxury Shoes')">
+−
+</button>
+
+<button class="remove"
+onclick="removeItem('Luxury Shoes')">
+Remove
+</button>
+
+<button class="wish"
+onclick="wishlist('Luxury Shoes')">
+❤️
+</button>
+
 </div>
 
 </div>
 
 <!-- JEWELRY -->
-<div class="grid store" id="jewelry" style="display:none;">
+
+<div class="grid store"
+id="jewelry"
+style="display:none;">
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?w=500">
+
+<img
+src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?w=500"
+alt="Gold Ring">
+
 <h3>Gold Ring</h3>
+
 <p>$1000</p>
 
-<button class="add" onclick="add('Gold Ring',1000)">+</button>
-<button class="minus" onclick="minus('Gold Ring')">−</button>
-<button class="remove" onclick="removeItem('Gold Ring')">Remove</button>
-<button class="wish" onclick="wishlist('Gold Ring')">❤️</button>
+<button class="add"
+onclick="add('Gold Ring',1000)">
++
+</button>
+
+<button class="minus"
+onclick="minus('Gold Ring')">
+−
+</button>
+
+<button class="remove"
+onclick="removeItem('Gold Ring')">
+Remove
+</button>
+
+<button class="wish"
+onclick="wishlist('Gold Ring')">
+❤️
+</button>
+
 </div>
 
 <div class="card">
-<img src="silver-watch.jpg">
+
+<img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=500" alt="Silver Watch">
+
 <h3>Silver Watch</h3>
+
 <p>$250</p>
 
-<button class="add" onclick="add('Silver Watch',250)">+</button>
-<button class="minus" onclick="minus('Silver Watch')">−</button>
-<button class="remove" onclick="removeItem('Silver Watch')">Remove</button>
-<button class="wish" onclick="wishlist('Silver Watch')">❤️</button>
+<button class="add"
+onclick="add('Silver Watch',250)">
++
+</button>
+
+<button class="minus"
+onclick="minus('Silver Watch')">
+−
+</button>
+
+<button class="remove"
+onclick="removeItem('Silver Watch')">
+Remove
+</button>
+
+<button class="wish"
+onclick="wishlist('Silver Watch')">
+❤️
+</button>
+
 </div>
 
 </div>
 
 <!-- PERFUME -->
-<div class="grid store" id="perfume" style="display:none;">
+
+<div class="grid store"
+id="perfume-store"
+style="display:none;">
 
 <div class="card">
-<img src="perfume.jpg">
+
+<img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=500" alt="Perfume">
+
 <h3>Perfume</h3>
+
 <p>$40</p>
 
-<button class="add" onclick="add('Perfume',40)">+</button>
-<button class="minus" onclick="minus('Perfume')">−</button>
-<button class="remove" onclick="removeItem('Perfume')">Remove</button>
-<button class="wish" onclick="wishlist('Perfume')">❤️</button>
+<button class="add"
+onclick="add('Perfume',40)">
++
+</button>
+
+<button class="minus"
+onclick="minus('Perfume')">
+−
+</button>
+
+<button class="remove"
+onclick="removeItem('Perfume')">
+Remove
+</button>
+
+<button class="wish"
+onclick="wishlist('Perfume')">
+❤️
+</button>
+
 </div>
 
 </div>
 
 </section>
 
-  <!-- STORE SELECTOR -->
-<div style="text-align:center;padding:15px;">
+<!-- FLOATING CART -->
 
-<button class="btn" onclick="showStore('fashion')">
-Fashion Store
-</button>
+<div class="cart-btn"
+onclick="toggleCart()">
 
-<button class="btn" onclick="showStore('jewelry')">
-Jewelry Store
-</button>
-
-<button class="btn" onclick="showStore('perfume')">
-Perfume Store
-</button>
+🛒 Cart
+(<span id="cartCount">0</span>)
 
 </div>
-  
-<!-- DRESS -->
-<div class="card">
-<img src="dress.jpg">
-<h3>Elegant Dress</h3>
-<p>$50</p>
-<button class="add" onclick="add('Elegant Dress',50)">+</button>
-<button class="minus" onclick="minus('Elegant Dress')">−</button>
-<button class="remove" onclick="removeItem('Elegant Dress')">Remove</button>
-<button class="wish" onclick="wishlist('Elegant Dress')">❤️</button>
+
+<!-- OVERLAY -->
+
+<div class="overlay"
+id="overlay"
+onclick="toggleCart()">
 </div>
 
-<!-- SHOES -->
-<div class="card">
-<img src="luxury-shoes.jpg">
-<h3>Luxury Shoes</h3>
-<p>$65</p>
-<button class="add" onclick="add('Luxury Shoes',65)">+</button>
-<button class="minus" onclick="minus('Luxury Shoes')">−</button>
-<button class="remove" onclick="removeItem('Luxury Shoes')">Remove</button>
-<button class="wish" onclick="wishlist('Luxury Shoes')">❤️</button>
-</div>
+<!-- CART -->
 
-<!-- PERFUME -->
-<div class="card">
-<img src="perfume.jpg">
-<h3>Perfume</h3>
-<p>$40</p>
-<button class="add" onclick="add('Perfume',40)">+</button>
-<button class="minus" onclick="minus('Perfume')">−</button>
-<button class="remove" onclick="removeItem('Perfume')">Remove</button>
-<button class="wish" onclick="wishlist('Perfume')">❤️</button>
-</div>
+<div class="cart"
+id="cart">
 
-<!-- GOLD RING -->
-<div class="card">
-<img src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?w=500">
-<h3>Gold Ring</h3>
-<p>$1000</p>
-<button class="add" onclick="add('Gold Ring',1000)">+</button>
-<button class="minus" onclick="minus('Gold Ring')">−</button>
-<button class="remove" onclick="removeItem('Gold Ring')">Remove</button>
-<button class="wish" onclick="wishlist('Gold Ring')">❤️</button>
-</div>
-
-<!-- SILVER WATCH (RESTORED) -->
-<div class="card">
-<img src="silver-watch.jpg">
-<h3>Silver Watch</h3>
-<p>$250</p>
-<button class="add" onclick="add('Silver Watch',250)">+</button>
-<button class="minus" onclick="minus('Silver Watch')">−</button>
-<button class="remove" onclick="removeItem('Silver Watch')">Remove</button>
-<button class="wish" onclick="wishlist('Silver Watch')">❤️</button>
-</div>
-
-</div>
-</section>
-
-<!-- FLOATING CART BUTTON -->
-<div class="cart-btn" onclick="toggleCart()">
-🛒 Cart (<span id="cartCount">0</span>)
-</div>
-
-<div class="overlay" id="overlay" onclick="toggleCart()"></div>
-
-<!-- SIDE CART -->
-<div class="cart" id="cart">
 <h2>Your Cart</h2>
 
 <ul id="list"></ul>
 
-<h3>Total: $<span id="total">0</span></h3>
+<h3>
+Total: $
+<span id="total">0</span>
+</h3>
 
-<button onclick="checkout()">Checkout WhatsApp</button>
-<button onclick="clearCart()" style="background:red;color:white;">Clear</button>
+<button onclick="checkout()"
+class="add">
+Checkout WhatsApp
+</button>
+
+<button onclick="clearCart()"
+class="remove">
+Clear Cart
+</button>
+
+<hr>
+
+<h2>Wishlist ❤️</h2>
+
+<ul id="wishList"></ul>
+
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- TOAST -->
+
+<div class="toast"
+id="toast">
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+© 2026 RAMU BOUTIQUE
+</footer>
 
 <script>
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let wishes = JSON.parse(localStorage.getItem("wish")) || [];
+/* STORAGE */
+
+let cart =
+JSON.parse(localStorage.getItem("cart")) || [];
+
+let wishes =
+JSON.parse(localStorage.getItem("wish")) || [];
+
+/* SAVE */
 
 function save(){
-  localStorage.setItem("cart", JSON.stringify(cart));
-  localStorage.setItem("wish", JSON.stringify(wishes));
+
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+  );
+
+  localStorage.setItem(
+    "wish",
+    JSON.stringify(wishes)
+  );
+
 }
+
+/* TOAST */
 
 function toast(msg){
-  let t=document.getElementById("toast");
-  t.innerText=msg;
-  t.style.display="block";
-  setTimeout(()=>t.style.display="none",1200);
+
+  let t =
+  document.getElementById("toast");
+
+  t.innerText = msg;
+
+  t.style.display = "block";
+
+  setTimeout(()=>{
+    t.style.display="none";
+  },1500);
+
 }
+
+/* ADD */
 
 function add(name,price){
-  let item = cart.find(i=>i.name===name);
-  if(item) item.qty++;
-  else cart.push({name,price,qty:1});
+
+  let item =
+  cart.find(i=>i.name===name);
+
+  if(item){
+
+    item.qty++;
+
+  } else {
+
+    cart.push({
+      name,
+      price,
+      qty:1
+    });
+
+  }
 
   save();
-  toast("Added " + name);
+
+  toast(name + " added");
+
   render();
+
 }
 
+/* MINUS */
+
 function minus(name){
-  let item = cart.find(i=>i.name===name);
+
+  let item =
+  cart.find(i=>i.name===name);
+
   if(!item) return;
 
   item.qty--;
+
   if(item.qty<=0){
-    cart = cart.filter(i=>i.name!==name);
+
+    cart =
+    cart.filter(i=>i.name!==name);
+
   }
 
   save();
+
   render();
+
 }
+
+/* REMOVE */
 
 function removeItem(name){
-  cart = cart.filter(i=>i.name!==name);
+
+  cart =
+  cart.filter(i=>i.name!==name);
+
   save();
+
   render();
+
 }
+
+/* WISHLIST */
 
 function wishlist(name){
-  if(!wishes.includes(name)){
-    wishes.push(name);
+
+  if(wishes.includes(name)){
+
+    wishes =
+    wishes.filter(i=>i!==name);
+
+    toast("Removed from Wishlist");
+
   } else {
-    wishes = wishes.filter(i=>i!==name);
+
+    wishes.push(name);
+
+    toast("Added to Wishlist ❤️");
+
   }
+
   save();
+
   render();
+
 }
 
-/* CART DRAWER */
-function toggleCart(){
-  document.getElementById("cart").classList.toggle("open");
-  document.getElementById("overlay").style.display =
-    document.getElementById("cart").classList.contains("open") ? "block" : "none";
-}
+/* RENDER */
 
 function render(){
 
-  let list=document.getElementById("list");
-  list.innerHTML="";
-  let total=0;
+  let list =
+  document.getElementById("list");
+
+  list.innerHTML = "";
+
+  let total = 0;
 
   cart.forEach(i=>{
-    total+=i.price*i.qty;
-    let li=document.createElement("li");
-    li.innerHTML=`${i.name} x${i.qty} = $${i.price*i.qty}`;
+
+    total += i.price * i.qty;
+
+    let li =
+    document.createElement("li");
+
+    li.innerHTML = `
+      ${i.name} x${i.qty}
+      = $${i.price*i.qty}
+    `;
+
     list.appendChild(li);
+
   });
 
-  document.getElementById("total").innerText=total;
-  document.getElementById("cartCount").innerText=cart.length;
+  document.getElementById("total")
+  .innerText = total;
+
+  document.getElementById("cartCount")
+  .innerText = cart.length;
+
+  /* WISHLIST RENDER */
+
+  let w =
+  document.getElementById("wishList");
+
+  w.innerHTML = "";
+
+  wishes.forEach(item=>{
+
+    let li =
+    document.createElement("li");
+
+    li.innerHTML = `
+      ${item}
+
+      <button
+      onclick="wishlist('${item}')"
+      class="remove">
+
+      ❌
+
+      </button>
+    `;
+
+    w.appendChild(li);
+
+  });
+
 }
+
+/* CHECKOUT */
 
 function checkout(){
 
   if(cart.length===0){
-    alert("Cart empty!");
+
+    alert("Cart is empty!");
+
     return;
+
   }
 
-  let msg="🛍 Ramu Boutique Order\n\n";
-  let total=0;
+  let msg =
+  "🛍 Ramu Boutique Order\n\n";
+
+  let total = 0;
 
   cart.forEach(i=>{
-    let t=i.price*i.qty;
-    total+=t;
-    msg+=`• ${i.name} x${i.qty} = $${t}\n`;
+
+    let t =
+    i.price * i.qty;
+
+    total += t;
+
+    msg += `
+• ${i.name} x${i.qty}
+= $${t}
+`;
+
   });
 
-  msg+=`\nTOTAL: $${total}`;
+  msg += `
 
-  window.open("https://wa.me/2207597080?text="+encodeURIComponent(msg), "_blank");
+TOTAL: $${total}`;
+
+  let url =
+  "https://wa.me/2207597080?text="
+  + encodeURIComponent(msg);
+
+  window.open(url,"_blank");
+
 }
+
+/* CLEAR */
 
 function clearCart(){
-  cart=[];
+
+  cart = [];
+
   save();
+
   render();
+
+  toast("Cart cleared");
+
 }
 
+/* SEARCH */
+
 function filterProducts(){
-  let input=document.getElementById("search").value.toLowerCase();
-  document.querySelectorAll(".card").forEach(card=>{
-    let name=card.querySelector("h3").innerText.toLowerCase();
-    card.style.display=name.includes(input)?"block":"none";
+
+  let input =
+  document.getElementById("search")
+  .value
+  .toLowerCase();
+
+  document.querySelectorAll(".card")
+  .forEach(card=>{
+
+    let name =
+    card.querySelector("h3")
+    .innerText
+    .toLowerCase();
+
+    card.style.display =
+    name.includes(input)
+    ? "block"
+    : "none";
+
   });
+
 }
+
+/* CART */
+
+function toggleCart(){
+
+  let cartEl =
+  document.getElementById("cart");
+
+  cartEl.classList.toggle("open");
+
+  document.getElementById("overlay")
+  .style.display =
+  cartEl.classList.contains("open")
+  ? "block"
+  : "none";
+
+}
+
+/* STORE SWITCH */
+
+function showStore(store){
+
+  document.querySelectorAll(".store")
+  .forEach(s=>{
+
+    s.style.display = "none";
+
+  });
+
+  document.getElementById(store)
+  .style.display = "grid";
+
+}
+
+/* DARK MODE */
+
+function toggleMode(){
+
+  document.body.classList.toggle("light");
+
+}
+
+/* START */
 
 render();
 
 </script>
 
 </body>
-</html>
+  </html>
