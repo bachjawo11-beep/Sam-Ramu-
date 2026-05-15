@@ -527,7 +527,7 @@ onclick="wishlist('Perfume')">
 <!-- FLOATING CART -->
 
 <div class="cart-btn"
-onclick="togglecart()">
+onclick="toggleCart()">
 
 🛒 Cart
 (<span id="cartCount">0</span>)
@@ -586,6 +586,7 @@ id="toast">
 </footer>
 
 <script>
+
 /* STORAGE */
 
 let cart =
@@ -622,14 +623,12 @@ function toast(msg){
   t.style.display = "block";
 
   setTimeout(()=>{
-
-    t.style.display = "none";
-
+    t.style.display="none";
   },1500);
 
 }
 
-/* ADD TO CART */
+/* ADD */
 
 function add(name,price){
 
@@ -669,7 +668,7 @@ function minus(name){
 
   item.qty--;
 
-  if(item.qty <= 0){
+  if(item.qty<=0){
 
     cart =
     cart.filter(i=>i.name!==name);
@@ -826,7 +825,7 @@ TOTAL: $${total}`;
 
 }
 
-/* CLEAR CART */
+/* CLEAR */
 
 function clearCart(){
 
@@ -866,66 +865,22 @@ function filterProducts(){
 
 }
 
-/* CART TOGGLE */
+/* CART */
 
 function toggleCart(){
 
   let cartEl =
   document.getElementById("cart");
 
-  let overlay =
-  document.getElementById("overlay");
-
   cartEl.classList.toggle("open");
 
-  if(cartEl.classList.contains("open")){
-
-    overlay.style.display = "block";
-
-    document.body.style.overflow = "hidden";
-
-  } else {
-
-    overlay.style.display = "none";
-
-    document.body.style.overflow = "auto";
-
-  }
+  document.getElementById("overlay")
+  .style.display =
+  cartEl.classList.contains("open")
+  ? "block"
+  : "none";
 
 }
-
-/* OPEN CART */
-
-function openCart(){
-
-  history.pushState(
-    {cartOpen:true},
-    ""
-  );
-
-  toggleCart();
-
-}
-
-/* BACK BUTTON FIX */
-
-window.addEventListener("popstate", ()=>{
-
-  let cartEl =
-  document.getElementById("cart");
-
-  if(cartEl.classList.contains("open")){
-
-    cartEl.classList.remove("open");
-
-    document.getElementById("overlay")
-    .style.display = "none";
-
-    document.body.style.overflow = "auto";
-
-  }
-
-});
 
 /* STORE SWITCH */
 
@@ -954,3 +909,8 @@ function toggleMode(){
 /* START */
 
 render();
+
+</script>
+
+</body>
+  </html>
