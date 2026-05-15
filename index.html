@@ -586,7 +586,6 @@ id="toast">
 </footer>
 
 <script>
-
 /* STORAGE */
 
 let cart =
@@ -608,16 +607,7 @@ function save(){
     "wish",
     JSON.stringify(wishes)
   );
-function openCart(){
 
-  history.pushState(
-    {cartOpen:true},
-    ""
-  );
-
-  toggleCart();
-
-  }
 }
 
 /* TOAST */
@@ -632,12 +622,14 @@ function toast(msg){
   t.style.display = "block";
 
   setTimeout(()=>{
-    t.style.display="none";
+
+    t.style.display = "none";
+
   },1500);
 
 }
 
-/* ADD */
+/* ADD TO CART */
 
 function add(name,price){
 
@@ -677,7 +669,7 @@ function minus(name){
 
   item.qty--;
 
-  if(item.qty<=0){
+  if(item.qty <= 0){
 
     cart =
     cart.filter(i=>i.name!==name);
@@ -834,7 +826,7 @@ TOTAL: $${total}`;
 
 }
 
-/* CLEAR */
+/* CLEAR CART */
 
 function clearCart(){
 
@@ -874,7 +866,7 @@ function filterProducts(){
 
 }
 
-/* CART */
+/* CART TOGGLE */
 
 function toggleCart(){
 
@@ -897,6 +889,26 @@ function toggleCart(){
     overlay.style.display = "none";
 
     document.body.style.overflow = "auto";
+
+  }
+
+}
+
+/* OPEN CART */
+
+function openCart(){
+
+  history.pushState(
+    {cartOpen:true},
+    ""
+  );
+
+  toggleCart();
+
+}
+
+/* BACK BUTTON FIX */
+
 window.addEventListener("popstate", ()=>{
 
   let cartEl =
@@ -942,8 +954,3 @@ function toggleMode(){
 /* START */
 
 render();
-
-</script>
-
-</body>
-  </html>
