@@ -198,8 +198,80 @@ button{
 </section>
 
 <section class="products" id="products">
-<div class="grid">
-<!-- STORE SELECTOR -->
+
+<!-- FASHION -->
+<div class="grid store" id="fashion">
+
+<div class="card">
+<img src="dress.jpg">
+<h3>Elegant Dress</h3>
+<p>$50</p>
+
+<button class="add" onclick="add('Elegant Dress',50)">+</button>
+<button class="minus" onclick="minus('Elegant Dress')">−</button>
+<button class="remove" onclick="removeItem('Elegant Dress')">Remove</button>
+<button class="wish" onclick="wishlist('Elegant Dress')">❤️</button>
+</div>
+
+<div class="card">
+<img src="luxury-shoes.jpg">
+<h3>Luxury Shoes</h3>
+<p>$65</p>
+
+<button class="add" onclick="add('Luxury Shoes',65)">+</button>
+<button class="minus" onclick="minus('Luxury Shoes')">−</button>
+<button class="remove" onclick="removeItem('Luxury Shoes')">Remove</button>
+<button class="wish" onclick="wishlist('Luxury Shoes')">❤️</button>
+</div>
+
+</div>
+
+<!-- JEWELRY -->
+<div class="grid store" id="jewelry" style="display:none;">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?w=500">
+<h3>Gold Ring</h3>
+<p>$1000</p>
+
+<button class="add" onclick="add('Gold Ring',1000)">+</button>
+<button class="minus" onclick="minus('Gold Ring')">−</button>
+<button class="remove" onclick="removeItem('Gold Ring')">Remove</button>
+<button class="wish" onclick="wishlist('Gold Ring')">❤️</button>
+</div>
+
+<div class="card">
+<img src="silver-watch.jpg">
+<h3>Silver Watch</h3>
+<p>$250</p>
+
+<button class="add" onclick="add('Silver Watch',250)">+</button>
+<button class="minus" onclick="minus('Silver Watch')">−</button>
+<button class="remove" onclick="removeItem('Silver Watch')">Remove</button>
+<button class="wish" onclick="wishlist('Silver Watch')">❤️</button>
+</div>
+
+</div>
+
+<!-- PERFUME -->
+<div class="grid store" id="perfume" style="display:none;">
+
+<div class="card">
+<img src="perfume.jpg">
+<h3>Perfume</h3>
+<p>$40</p>
+
+<button class="add" onclick="add('Perfume',40)">+</button>
+<button class="minus" onclick="minus('Perfume')">−</button>
+<button class="remove" onclick="removeItem('Perfume')">Remove</button>
+<button class="wish" onclick="wishlist('Perfume')">❤️</button>
+</div>
+
+</div>
+
+</section>
+
+  <!-- STORE SELECTOR -->
 <div style="text-align:center;padding:15px;">
 
 <button class="btn" onclick="showStore('fashion')">
@@ -415,4 +487,4 @@ render();
 </script>
 
 </body>
-  </html>
+</html>
