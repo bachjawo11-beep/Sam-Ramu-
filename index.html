@@ -527,7 +527,7 @@ onclick="wishlist('Perfume')">
 <!-- FLOATING CART -->
 
 <div class="cart-btn"
-onclick="toggleCart()">
+onclick="openCart()">
 
 🛒 Cart
 (<span id="cartCount">0</span>)
@@ -608,7 +608,16 @@ function save(){
     "wish",
     JSON.stringify(wishes)
   );
+function openCart(){
 
+  history.pushState(
+    {cartOpen:true},
+    ""
+  );
+
+  toggleCart();
+
+  }
 }
 
 /* TOAST */
@@ -872,15 +881,39 @@ function toggleCart(){
   let cartEl =
   document.getElementById("cart");
 
+  let overlay =
+  document.getElementById("overlay");
+
   cartEl.classList.toggle("open");
 
-  document.getElementById("overlay")
-  .style.display =
-  cartEl.classList.contains("open")
-  ? "block"
-  : "none";
+  if(cartEl.classList.contains("open")){
 
-}
+    overlay.style.display = "block";
+
+    document.body.style.overflow = "hidden";
+
+  } else {
+
+    overlay.style.display = "none";
+
+    document.body.style.overflow = "auto";
+window.addEventListener("popstate", ()=>{
+
+  let cartEl =
+  document.getElementById("cart");
+
+  if(cartEl.classList.contains("open")){
+
+    cartEl.classList.remove("open");
+
+    document.getElementById("overlay")
+    .style.display = "none";
+
+    document.body.style.overflow = "auto";
+
+  }
+
+});
 
 /* STORE SWITCH */
 
